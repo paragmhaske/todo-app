@@ -6,10 +6,29 @@ import './App.css';
 function App() {
   const [task, setTask] = useState(""); 
   const [tasks, setTasks] = useState([]); 
+  
+  const addTask = () => {
+  if (task.trim() === "") {
+    alert("Task cannot be empty!");
+    return;
+  }
+
+  const newTask = {
+    id: Date.now(),
+    text: task,
+    completed: false
+  };
+  setTasks([...tasks, newTask]);
+  setTask(""); // Clear input
+};
   const newTask = {
     id: Date.now(),           
     text: task,              
     completed: false          
+  };
+  const deleteTask = (id) => {
+    const filteredTasks = tasks.filter(task => task.id !== id);
+    setTasks(filteredTasks);
   };
 
   const handleAdd = () => {
@@ -41,6 +60,7 @@ function App() {
     <span style={{ textDecoration: taskItem.completed ? 'line-through' : 'none' }}>
       {taskItem.text}
     </span>
+    <button onClick={() => deleteTask(taskItem.id)}>❌</button>
   </div>
 ))}
 
