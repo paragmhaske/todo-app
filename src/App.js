@@ -4,14 +4,25 @@ import React, { useState } from "react";
 import './App.css';
 
 function App() {
-  const [task, setTask] = useState(""); // for input
-  const [tasks, setTasks] = useState([]); // list of tasks
+  const [task, setTask] = useState(""); 
+  const [tasks, setTasks] = useState([]); 
+  const newTask = {
+    id: Date.now(),           
+    text: task,              
+    completed: false          
+  };
 
   const handleAdd = () => {
     if (task.trim() !== "") {
-      setTasks([...tasks, task]);
+      setTasks([...tasks, newTask]);
       setTask(""); // clear input
     }
+  };
+  const toggleComplete = (id) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === id ? { ...task, completed: !task.completed } : task
+    );
+    setTasks(updatedTasks);
   };
   return (
     <div>
@@ -20,9 +31,19 @@ function App() {
         onChange={(e) => setTask(e.target.value)} placeholder="Add a new task..." />
     <button  onClick={handleAdd} style={{ marginLeft: "10px"} }>Add</button>  
     <ul style={{ marginTop: "20px" }}>
-        {tasks.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
+    {tasks.map((taskItem) => (
+  <div key={taskItem.id}>
+    <input
+      type="checkbox"
+      checked={taskItem.completed}
+      onChange={() => toggleComplete(taskItem.id)}
+    />
+    <span style={{ textDecoration: taskItem.completed ? 'line-through' : 'none' }}>
+      {taskItem.text}
+    </span>
+  </div>
+))}
+
       </ul>
   </div>
     /*<div className="App">
