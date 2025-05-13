@@ -26,7 +26,7 @@ function App() {
     text: task,              
     completed: false          
   };
-  const deleteTask = (id) => {
+  const deleteTask = (id) => {//Dlete
     const filteredTasks = tasks.filter(task => task.id !== id);
     setTasks(filteredTasks);
   };
